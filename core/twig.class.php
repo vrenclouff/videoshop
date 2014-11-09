@@ -1,25 +1,24 @@
 <?php
 
-class twig_temp
+require_once 'Twig/lib/Twig/Autoloader.php';
+
+class twig
 {
 
     private $twigTem = null;
 
-    public function twig_temp()
+    public function twig()
 	{
-		require_once '../Twig/lib/Twig/Autoloader.php';
         Twig_Autoloader::register();
 
-        $loader = new Twig_Loader_Filesystem('../templates');
-        $twigTem = new Twig_Environment($loader); // takhle je to bez cache
+        $loader = new Twig_Loader_Filesystem('templates');
+        $this->twigTem = new Twig_Environment($loader);
 	}
 
-	public function loadTemplate($template)
+	public function loadTemp($template)
 	{
-	    return $this->twigTem->loadTemplate($template+'.htm');
+	    return $this->twigTem->loadTemplate("$template.htm");
 	}
-
-//	echo $template->render(array('obsah' => 'Text do obsahu', 'nadpis1' => 'Nadpis 1'));
 }
 
 ?>
