@@ -29,9 +29,9 @@
 	// lokalni 
 	define('DB_TYPE', 'mysql');
 	define('DB_HOST', '127.0.0.1');
-	define('DB_DATABASE_NAME', 'db1_vyuka');
+	define('DB_DATABASE_NAME', 'pujcovna_fimu');
 	define('DB_USER_LOGIN', 'root');
-	define('DB_USER_PASSWORD', '');
+	define('DB_USER_PASSWORD', 'root');
 
 	// online
 	/*

@@ -13,8 +13,12 @@ class LoginController extends Controller
          $this->temp = 'login';
          $this->view();
 
+         echo "data <br />";
+         $sql = $this->db->DBSelectAll('Persons', '*');
+         echo $sql;
+
          if(!$login){
-             $this->data = array();
+             $this->data = array('text' => 'neco', 'button' => 'Registrace »');
              $this->temp = 'singup';
              $this->view();
          }

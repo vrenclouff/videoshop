@@ -5,7 +5,7 @@ class RegistrationController extends Controller
 
     public function make($param){
 
-             $login = @$_POST['registration'];
+             $reg = @$_POST['registration'];
 
              $this->data = array('title' => 'Půjčovna filmů');
              $this->temp = 'login';
@@ -14,9 +14,9 @@ class RegistrationController extends Controller
              $this->data = array('FName' => 'Křestní jméno', 'LName' => 'Příjmení', 'Email' => 'Email', 'Password' => 'Heslo');
              $this->temp = 'registration';
              $this->view();
-             //print_r($login);
+             //print_r($reg);
 
-             if ($login)
+             if ($reg)
                 echo "<br /> registrovani <br /> ";
         }
 

@@ -43,7 +43,7 @@ class RouterController extends Controller
             $this->temp = 'login';
             $this->view();
 
-            $this->data = array();
+            $this->data = array('text' => 'neco', 'button' => 'Registrace »');
             $this->temp = 'singup';
             $this->view();
         }

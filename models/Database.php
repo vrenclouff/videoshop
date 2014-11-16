@@ -1,6 +1,6 @@
 <?php 
 
-class db
+class Database
 {
 	// vlastni pripojeni k DB - tady to mam public, abych se k tomu rychle dostal. Neni to spravne.
 	public $connection = null;
