@@ -6,10 +6,20 @@ class Database
 {
 	// vlastni pripojeni k DB - tady to mam public, abych se k tomu rychle dostal. Neni to spravne.
 	private static $connection;
+	private static $instance;
 	
 	// ***********************************************************
 	// START UNIVERZALNI METODY
-		
+
+
+    public static function getDatabase(){
+        if(!isset(self::$instance)){
+            self::$instance = new Database();
+            self::$instance->Connect();
+        }
+        return self::$instance;
+    }
+
 	/**
 	 * Nacist 1 zaznam z tabulky v DB.
 	 *
@@ -327,7 +337,7 @@ class Database
 	
 	
 	 			 				$insert_columns .= "`$column`";
-	 			 				$insert_values .= "$value_pom";
+	 			 				$insert_values .= "$value_pomf";
 	 			 	}
 	
 	 			 	// 1) pripravit dotaz s dotaznikama
@@ -395,7 +405,7 @@ class Database
 	/**
 	 * Připojí k vybrané db.
 	 */
-	function Connect()
+	public static function Connect()
 	{
 		// PDO - MySQL
 		try
@@ -427,7 +437,7 @@ class Database
 	/**
 	 * Vratit pdo pripojeni
 	 */
-	public function GetConnection()
+	public static function GetConnection()
 	{
 		return self::$connection;
 	}

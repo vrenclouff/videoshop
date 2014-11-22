@@ -18,12 +18,7 @@
 
     spl_autoload_register("autoloadFnc");
 
-    Stat::ConnectDB();
-    Stat::LoadTwig();
-//    echo "propojeno <br />";
-
-//    session_start();
-//    print_r(array($_SERVER['REQUEST_URI']));
+    session_start();
     $router = new RouterController();
     $router->make(array($_SERVER['REQUEST_URI']));
 ?>

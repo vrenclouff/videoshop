@@ -12,8 +12,8 @@ abstract class AbsController
     abstract function make($param);
 
     function __construct(){
-         $this->db = Stat::getConnect();
-         $this->twig = Stat::getTwig();
+         $this->twig = TwigController::getTwig();
+         $this->db = Database::getDatabase();
     }
 
     public function view()
