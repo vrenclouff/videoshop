@@ -1,9 +1,11 @@
 <?php 
 
+require_once 'config.inc.php';
+
 class Database
 {
 	// vlastni pripojeni k DB - tady to mam public, abych se k tomu rychle dostal. Neni to spravne.
-	public $connection = null;
+	private static $connection;
 	
 	// ***********************************************************
 	// START UNIVERZALNI METODY
@@ -36,7 +38,7 @@ class Database
 	
 				$column = $item["column"];
 				$symbol = $item["symbol"];
-	
+
 				if (key_exists("value", $item))
 					$value_pom = "?"; 						// budu to navazovat
 				else if (key_exists("value_mysql", $item))
@@ -54,7 +56,7 @@ class Database
 			//echo "$query <br/>";
 	
 			// 2) pripravit si statement
-			$statement = $this->connection->prepare($query);
+			$statement = self::$connection->prepare($query);
 	
 			// 3) NAVAZAT HODNOTY k otaznikum dle poradi od 1
 			$bind_param_number = 1;
@@ -94,7 +96,7 @@ class Database
 				else
 				{
 					echo "Chyba v dotazu - PDOStatement::errorInfo(): ";
-					printr($errors);
+			//		printr($errors);
 					echo "SQL dotaz: $query";
 				}
 	}
@@ -114,9 +116,8 @@ class Database
 	 public function DBSelectAll($table_name, $select_columns_string, $where_array, $limit_string = "", $order_by_array = array())
 	 {
 	 	// PDO - MySQL
-	
-	 	//echo "metoda DBSelectAll"; 
-	 	//printr($this->connection);
+	 	//echo "metoda DBSelectAll";
+	 	//printr(self::$connection);
 	 	//exit;
 	 	
 	 	// vznik chyby v PDO
@@ -180,7 +181,7 @@ class Database
 	 		//echo $query;
 	
 	 		// 2) pripravit si statement
-	 		$statement = $this->connection->prepare($query);
+	 		$statement = self::$connection->prepare($query);
 	
 	 		// 3) NAVAZAT HODNOTY k otaznikum dle poradi od 1
 	 		$bind_param_number = 1;
@@ -220,7 +221,7 @@ class Database
 	 	else
 	 	{
 	 	echo "Chyba v dotazu - PDOStatement::errorInfo(): ";
-					printr($errors);
+//					printr($errors);
 					echo "SQL dotaz: $query";
 	 	}
 	 	}
@@ -256,7 +257,7 @@ class Database
 	 		$query = "insert into `$table_name` ($insert_columns) values ($insert_values);";
 	
 	 		// 2) pripravit si statement
-	 		$statement = $this->connection->prepare($query);
+	 		$statement = self::$connection->prepare($query);
 	
 	 		// 3) NAVAZAT HODNOTY k otaznikum dle poradi od 1
 	 		$bind_param_number = 1;
@@ -284,13 +285,13 @@ class Database
 	 		// 6) nacist ID vlozeneho zaznamu a vratit
 	 		if ($mysql_pdo_error == false)
 	 		{
-	 		$item_id = $this->connection->lastInsertId();
+	 		$item_id = self::$connection->lastInsertId();
 	 		return $item_id;
 	 		}
 	 		else
 	 			{
 	 			echo "Chyba v dotazu - PDOStatement::errorInfo(): ";
-	 			printr($errors);
+//	 			printr($errors);
 	 			echo "SQL dotaz: $query";
 				}
 	}
@@ -304,10 +305,10 @@ class Database
 	*/
 	public function DBInsertExpanded($table_name, $item)
 	{
-	 			 // MySql
-	
-	 			 // SLOZIT TEXT STATEMENTU s otaznikama
-	 			 $insert_columns = "";
+	 			    // MySql
+
+	 			    // SLOZIT TEXT STATEMENTU s otaznikama
+	 			    $insert_columns = "";
 	 			 	$insert_values  = "";
 	
 	 			 	if ($item != null)
@@ -327,14 +328,16 @@ class Database
 	
 	 			 				$insert_columns .= "`$column`";
 	 			 				$insert_values .= "$value_pom";
+	 			 				echo $insert_columns."<br />";
+	 			 				echo $insert_values."<br />";
 	 			 	}
 	
 	 			 	// 1) pripravit dotaz s dotaznikama
 	 			 				$query = "insert into `$table_name` ($insert_columns) values ($insert_values);";
-	 			 				// echo $query;
+	 			 				echo $query;
 	
 	 			 				// 2) pripravit si statement
-	 			 				$statement = $this->connection->prepare($query);
+	 			 				$statement = self::$connection->prepare($query);
 	
 	 			 				// 3) NAVAZAT HODNOTY k otaznikum dle poradi od 1
 	 			 				$bind_param_number = 1;
@@ -368,13 +371,13 @@ class Database
 	 			 					// 6) nacist ID vlozeneho zaznamu a vratit
 	 			 					if ($mysql_pdo_error == false)
 	 			 					{
-	 			 						$item_id = $this->connection->lastInsertId();
+	 			 						$item_id = self::$connection->lastInsertId();
 	 			 						return $item_id;
 	 			 					}
 	 			 					else
 	 			 					{
 	 			 						echo "Chyba v dotazu - PDOStatement::errorInfo(): ";
-	 			 						printr($errors);
+//	 			 						printr($errors);
 	 			 						echo "SQL dotaz: $query";
 		 			}
 	}
@@ -399,10 +402,13 @@ class Database
 		try
 		{
 			$options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',);
-			$this->connection = new PDO("mysql:host=".DB_HOST.";dbname=".DB_DATABASE_NAME."", DB_USER_LOGIN, DB_USER_PASSWORD, $options);
-	
-			// nastavit pripojeni na UTF-8 - pro starsi verze PHP
-			//$this->connection->exec("SET NAMES UTF8");
+		    if (!isset(self::$connection)){
+		        echo "conn db <br />";
+		        self::$connection = new PDO("mysql:host=".DB_HOST.";dbname=".DB_DATABASE_NAME."", DB_USER_LOGIN, DB_USER_PASSWORD, $options);
+            }
+
+			// nastavit pripojeni na UTF-8 - pro$connection starsi verze PHP
+			//self::$connection->exec("SET NAMES UTF8");
 	
 		} catch (PDOException $e)
 		{
@@ -417,7 +423,7 @@ class Database
 	 */
 	function Disconnect()
 	{
-		$this->connection = null;
+		self::$connection = null;
 	}
 	
 	/**
@@ -425,7 +431,7 @@ class Database
 	 */
 	public function GetConnection()
 	{
-		return $this->connection;
+		return self::$connection;
 	}
 }
 

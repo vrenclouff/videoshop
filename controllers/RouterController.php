@@ -1,7 +1,7 @@
 <?php
 
 
-class RouterController extends Controller
+class RouterController extends AbsController
 {
 
 
@@ -9,8 +9,9 @@ class RouterController extends Controller
 
         public function make($param)
         {
-            $url = $this->parseURL($param[0]);
 
+//            print_r($param);
+            $url = $this->parseURL($param[0]);
 
             if (empty($url[0])){
                 $this->homepage();
@@ -18,6 +19,7 @@ class RouterController extends Controller
             $classController = $this->toCS(array_shift($url)) . 'Controller';
 
             if (file_exists('controllers/' . $classController . '.php')){
+//                    echo $classController."<br />";
                     $this->controller = new $classController;
             }
             else{
@@ -35,16 +37,5 @@ class RouterController extends Controller
         private function parseURL($url)
         {
             return explode("/", trim(ltrim(ltrim(parse_url($url)["path"], "/"), "/")));
-        }
-
-        private function homepage(){
-
-            $this->data = array('title' => 'Půjčovna filmů');
-            $this->temp = 'login';
-            $this->view();
-
-            $this->data = array('text' => 'neco', 'button' => 'Registrace »');
-            $this->temp = 'singup';
-            $this->view();
         }
 }

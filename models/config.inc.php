@@ -20,7 +20,7 @@
 	 * URL projektu.
 	 * Lokalni stroj: "127.0.0.1" nebo "localhost" + cesta k home adresari projektu s index.php
 	 */
-	define('WEB_DOMAIN', 'http://localhost/app');
+	define('WEB_DOMAIN', 'http://localhost');
 
 	/**
 	 * Pripojeni k DB.
@@ -29,7 +29,7 @@
 	// lokalni 
 	define('DB_TYPE', 'mysql');
 	define('DB_HOST', '127.0.0.1');
-	define('DB_DATABASE_NAME', 'pujcovna_fimu');
+	define('DB_DATABASE_NAME', 'mydb');
 	define('DB_USER_LOGIN', 'root');
 	define('DB_USER_PASSWORD', 'root');
 

@@ -1,31 +1,76 @@
 <?php
 
-class LoginController extends Controller
+class LoginController extends AbsController
 {
 
     public function make($param){
 
-         $login = @$_POST['login'];
+        $login = @$_POST['login'];
+        $login = $this->validParam($login);
 
-         print_r($login);
-
-         $this->data = array('title' => 'Půjčovna filmů');
-         $this->temp = 'login';
-         $this->view();
-
-         echo "data <br />";
-         $sql = $this->db->DBSelectAll('Persons', '*');
-         echo $sql;
-
-         if(!$login){
-             $this->data = array('text' => 'neco', 'button' => 'Registrace »');
-             $this->temp = 'singup';
-             $this->view();
-         }
+        $this->check_login($login);
     }
 
+    private function validParam($login){
+
+        if(empty($login['email']) || empty($login['pass'])) $this->set_url('');
+
+        $mail = $login['email'];
+        $pass = $login['pass'];
+    //    $pass = md5($pass);
+
+        return array('email' => $mail, 'pass' => $pass);
+    }
+
+    private function lgn($info){
+    //        $_SESSION['email'] = stripslashes($login);
+
+        $this->data = array(
+                'title' => 'Půjčovna filmů',
+                'FName' => $info['fname'],
+                'LName' => $info['lname']
+        );
+
+        $this->temp = 'loginafter';
+        $this->view();
+    }
+
+    private function nlgn(){
+
+
+        $this->data = array('text' => 'neco', 'button' => 'Registrace »');
+        $this->temp = 'singup';
+        $this->view();
+    }
+
+    public function check_login($login){
+
+        $dat = array(
+            array(
+                'column' => 'email',
+                'symbol' => '=',
+                'value' => $login['email']
+            ),
+            array(
+                'column' => 'heslo',
+                'symbol' => '=',
+                'value' => $login['pass']
+            )
+
+        );
+
+        $profil = $this->db->DBSelectOne('profil', '*', $dat, '');
+
+    //    print_r($profil);
+
+       if($profil){
+            $this->lgn($profil);
+       }else{
+    //        $this->nlgn();
+            $this->homepage();
+       }
+    }
 
 }
-
 
 ?>
