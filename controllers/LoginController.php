@@ -17,13 +17,12 @@ class LoginController extends AbsController
 
         $mail = $login['email'];
         $pass = $login['pass'];
-    //    $pass = md5($pass);
+        $pass = md5($pass);
 
         return array('email' => $mail, 'pass' => $pass);
     }
 
     private function lgn($info){
-    //        $_SESSION['email'] = stripslashes($login);
 
         $this->data = array(
                 'title' => 'Půjčovna filmů',
@@ -59,7 +58,7 @@ class LoginController extends AbsController
 
         );
 
-        $profil = $this->db->DBSelectOne('profil', '*', $dat, '');
+        $profil = $this->db->DBSelectOne('uzivatele', '*', $dat, '');
 
     //    print_r($profil);
 

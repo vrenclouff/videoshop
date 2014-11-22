@@ -328,13 +328,11 @@ class Database
 	
 	 			 				$insert_columns .= "`$column`";
 	 			 				$insert_values .= "$value_pom";
-	 			 				echo $insert_columns."<br />";
-	 			 				echo $insert_values."<br />";
 	 			 	}
 	
 	 			 	// 1) pripravit dotaz s dotaznikama
 	 			 				$query = "insert into `$table_name` ($insert_columns) values ($insert_values);";
-	 			 				echo $query;
+//	 			 				echo $query;
 	
 	 			 				// 2) pripravit si statement
 	 			 				$statement = self::$connection->prepare($query);
@@ -360,7 +358,8 @@ class Database
 	
 	 			 					// 5) kontrola chyb
 	 			 					$errors = $statement->errorInfo();
-	 			 					//printr($errors);
+//	 			 					print_r($errors);
+	 			 					$mysql_pdo_error = false;
 	
 	 			 					if ($errors[0] + 0 > 0)
 	 			 					{
@@ -403,7 +402,6 @@ class Database
 		{
 			$options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',);
 		    if (!isset(self::$connection)){
-		        echo "conn db <br />";
 		        self::$connection = new PDO("mysql:host=".DB_HOST.";dbname=".DB_DATABASE_NAME."", DB_USER_LOGIN, DB_USER_PASSWORD, $options);
             }
 

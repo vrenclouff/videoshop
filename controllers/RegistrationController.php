@@ -11,8 +11,10 @@ class RegistrationController extends AbsController
 
          if (isset($profil)){
              $profil = $this->validParam($profil);
-//             print_r($profil);
-             $this->db->DBInsertExpanded('profil', $profil);
+             $id = $this->db->DBInsertExpanded('uzivatele', $profil);
+             if($id > 0){
+                echo "<br /> registrace dokoncena <br />";
+             }
          }
     }
 
@@ -36,11 +38,17 @@ class RegistrationController extends AbsController
             echo "Zadejte email <br />";
             $this->set_url('registration');
         }
+        $dat = array(array('column' => 'email', 'symbol' => '=', 'value' => $email));
+        $error = $this->db->DBSelectOne('uzivatele', 'email', $dat, '');
+        if(!empty($error['email'])){
+            echo "Uzivatel s mailem je je v databazi <br />";
+            $this->set_url('registration');
+        }
         if(empty($city)){
             echo "Zadejte mesto <br />";
             $this->set_url('registration');
         }
-        if(empty($psc)){
+        if(empty($psc) || strlen($psc) != 5 || intval($psc) == 0){
             echo "Zadejte PSC <br />";
             $this->set_url('registration');
         }
@@ -48,7 +56,12 @@ class RegistrationController extends AbsController
             echo "Zadejte ulici <br />";
             $this->set_url('registration');
         }
-
+        if(!empty($tel)){
+            if(intval($tel) == 0 || strlen($tel) != 9){
+                echo "Zadejte spravne cislo <br />";
+                $this->set_url('registration');
+            }
+        }
 
         $profil['pass'] = md5($pass);
         unset($profil['pass2']);
@@ -59,31 +72,32 @@ class RegistrationController extends AbsController
     private function prepare_for_db($profil){
         extract($profil);
         $item = array(
-            array(
-                'column' => 'fname',
-                'column' => 'lname',
-                'column' => 'email',
-                'column' => 'heslo',
-                'column' => 'mesto',
-                'column' => 'psc',
-                'column' => 'ulice',
-                'column' => 'tel',
-                'column' => 'opravneni'
-            ),
-            array(
-                'value' => $FName,
-                'value' => $LName,
-                'value' => $email,
-                'value' => $pass,
-                'value' => $city,
-                'value' => $psc,
-                'value' => $street,
-                'value' => $tel,
-                'value' => 'user'
-            )
+//            array('column' => 'idprofil', 'value_mysql' => "'".'3'."'"),
+            array('column' => 'fname', 'value_mysql' => "'".$FName."'"),
+            array('column' => 'lname', 'value_mysql' => "'".$LName."'"),
+            array('column' => 'email', 'value_mysql' => "'".$email."'"),
+            array('column' => 'heslo', 'value_mysql' => "'".$pass."'"),
+            array('column' => 'mesto', 'value_mysql' => "'".$city."'"),
+            array('column' => 'psc', 'value_mysql' => "'".$psc."'"),
+            array('column' => 'ulice', 'value_mysql' => "'".$street."'"),
+            array('column' => 'tel', 'value_mysql' => "'".$tel."'"),
+            array('column' => 'opravneni', 'value_mysql' => "'"."user"."'")
         );
+//        $item = array(
+////            array('column' => 'idprofil', 'value_mysql' => '1'),
+//            array('column' => 'fname', 'value_mysql' => $FName),
+//            array('column' => 'lname', 'value_mysql' => $LName),
+//            array('column' => 'email', 'value_mysql' => $email),
+//            array('column' => 'heslo', 'value_mysql' => $pass),
+//            array('column' => 'mesto', 'value_mysql' => $city),
+//            array('column' => 'psc', 'value_mysql' => $psc),
+//            array('column' => 'ulice', 'value_mysql' => $street),
+//            array('column' => 'tel', 'value_mysql' => $tel),
+//            array('column' => 'opravneni', 'value_mysql' => "user")
+//        );
         return $item;
     }
+
 
     private function render(){
 
