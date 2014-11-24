@@ -337,7 +337,7 @@ class Database
 	
 	
 	 			 				$insert_columns .= "`$column`";
-	 			 				$insert_values .= "$value_pomf";
+	 			 				$insert_values .= "$value_pom";
 	 			 	}
 	
 	 			 	// 1) pripravit dotaz s dotaznikama

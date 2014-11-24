@@ -7,7 +7,7 @@ class FiltrController extends AbsController
 
         $filtr = @$_POST['filtr'];
         print_r($filtr);
-
+        $this->view();
     }
 
 }

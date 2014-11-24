@@ -18,12 +18,10 @@ abstract class AbsController
     public function view()
     {
         if($this->temp){
-//            if(!isset($_SESSION["user_islogin"])){
-////                echo $_SESSION['user_islogin']."<br />";
+            if(!isset($_SESSION["user_islogin"])){
+//                echo $_SESSION['user_islogin']."<br />";
                 $this->temp .= '_nlg';
-//            }
-//
-//            echo "<br />".$this->temp."<br />";
+            }
 
             $html = $this->twig->loadTemp($this->temp);
             echo $html->render($this->data);
@@ -41,11 +39,19 @@ abstract class AbsController
 
     public function homepage(){
 
-        $this->data = array(
-               'title' => 'Půjčovna filmů',
-               'text' => 'Pro pujcovani filmu je potreba byt prihlaseny',
-               'button' => 'Registrace »'
-        );
+        if(!isset($_SESSION["user_islogin"])){
+            $this->data = array(
+                'title' => 'Půjčovna filmů',
+                'text' => 'Pri pujcovani filmu se musite prihlasit',
+                'button' => 'Registrace »'
+            );
+        }else{
+            $this->data = array(
+                'title' => 'Půjčovna filmů',
+                'FName' => $_SESSION['user_profil']['fname'],
+                'LName' => $_SESSION['user_profil']['lname']
+            );
+        }
         $this->temp = 'login';
         $this->view();
 

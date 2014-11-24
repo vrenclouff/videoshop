@@ -7,11 +7,17 @@ class RegistrationController extends AbsController
 
          $profil = @$_POST['registration'];
 
+//         print_r($profil);
+
          if (isset($profil)){
              $profil = $this->validParam($profil);
              $id = $this->db->DBInsertExpanded('uzivatele', $profil);
              if($id > 0){
-                echo "<br /> registrace dokoncena <br />";
+                echo "<script type='text/javascript'>alert('Registrace dokoncena');</script>";
+                $this->view();
+//                $this->set_url('dokonceno');
+//                prihlasit uzivatele a presmerovat na localhost
+
              }
          }else{
             $this->render();
@@ -23,11 +29,16 @@ class RegistrationController extends AbsController
         extract($profil);
 
         if(empty($pass) && $pass != $pass2){
-            echo "spatne heslo <br />";
-            $this->set_url('registration');
+              $message = "Hesla se neshoduji";
+              echo "<script type='text/javascript'>alert('$message');</script>";
+              $this->set_url('registration');
+//            echo "spatne heslo <br />";
+//            $this->set_url('registration');
         }
         if(empty($FName)){
-            echo "Zadejte jmeno <br />";
+//            echo "Zadejte jmeno <br />";
+            $message = "Zadejte jmeno";
+            echo "<script type='text/javascript'>alert('$message');</script>";
             $this->set_url('registration');
         }
         if(empty($LName)){
@@ -40,8 +51,9 @@ class RegistrationController extends AbsController
         }
         $dat = array(array('column' => 'email', 'symbol' => '=', 'value' => $email));
         $error = $this->db->DBSelectOne('uzivatele', 'email', $dat, '');
+        echo $error;
         if(!empty($error['email'])){
-            echo "Uzivatel s mailem je je v databazi <br />";
+            echo "zivatel s mailem je je v databazi <br />";
             $this->set_url('registration');
         }
         if(empty($city)){
@@ -59,7 +71,6 @@ class RegistrationController extends AbsController
         if(!empty($tel)){
             if(intval($tel) == 0 || strlen($tel) != 9){
                 echo "Zadejte spravne cislo <br />";
-                $this->set_url('registration');
             }
         }
 
@@ -88,16 +99,17 @@ class RegistrationController extends AbsController
 
     private function render(){
 
+
         $this->data = array(
                'title' => 'Půjčovna filmů',
-               'FName' => 'Křestní jméno',
-               'LName' => 'Příjmení',
-               'Email' => 'Email',
-               'Password' => 'Heslo',
-               'PasswordAgain' => 'Heslo znovu',
-               'City' => 'Město',
-               'PSC' => 'PSC',
-               'Street' => 'Ulice',
+               'FName' => 'Křestní jméno *',
+               'LName' => 'Příjmení *',
+               'Email' => 'Email *',
+               'Password' => 'Heslo *',
+               'PasswordAgain' => 'Heslo znovu *',
+               'City' => 'Město *',
+               'PSC' => 'PSC *',
+               'Street' => 'Ulice *',
                'Tel' => 'Telefon'
         );
 

@@ -7,9 +7,10 @@ class BasketController extends AbsController
 
     public function make($param){
 
+//            print_r($param);
 
             if(empty($param)){
-//                print_r($basket);
+                print_r($_SESSION["basket"]);
                 $this->view();
 
                 // get ID movies from session
@@ -18,9 +19,9 @@ class BasketController extends AbsController
             }
 
             if($param[0] > 0){
-//                echo $param[0]."<br />";
-//                array_push($basket, $param[0]);
-//                $this->view();
+                if(!in_array($param[0], $_SESSION["basket"])){
+                    array_push($_SESSION["basket"], $param[0]);
+                }
                 $this->set_url('');
             }
     }
