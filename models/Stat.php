@@ -2,26 +2,17 @@
 
 class Stat
 {
+        private static $arr = array();
 
-    private static $db;
-    private static $twig;
+        public static function push($val){
+//            array_push(self::$arr, $val);
+            self::$arr[$val] = $val;
+            print_r(self::$arr);
+        }
 
-    public static function ConnectDB(){
-        Stat::$db = new Database();
-        Stat::$db->Connect();
-    }
-
-    public static function LoadTwig(){
-        Stat::$twig = new TwigController();
-    }
-
-    public static function getConnect(){
-        return Stat::$db;
-    }
-
-    public static function getTwig(){
-        return Stat::$twig;
-    }
+        public static function getArr(){
+            return serlf::$arr;
+        }
 }
 
 ?>

@@ -1,0 +1,60 @@
+{% extends "base.htm" %}
+
+{% block content %}
+<div class="jumbotron">
+    <form class="navbar-form navbar-center" action="#" method="post" role="form">
+        <select class="col-md-2" name="filtr[dabing]">
+            <option value="all">Dabing</option>
+            <option value="CZ">CZ</option>
+            <option value="EN">EN</option>
+            <option value="NJ">NJ</option>
+        </select>
+        <select class="col-md-2" name="filtr[actors]">
+            <option value="all">Herci</option>
+            <option value="CZ">Morgan Freeman</option>
+            <option value="EN">Tom Hanks</option>
+            <option value="NJ">Jack Nicholson</option>
+        </select>
+        <select class="col-md-2" name="filtr[director]">
+            <option value="all">Reziser</option>
+            <option value="CZ">Miloš Forman</option>
+            <option value="EN">Robert Zemeckis</option>
+            <option value="NJ">Frank Darabont</option>
+        </select>
+        <select class="col-md-2" name="filtr[year]">
+            <option value="all">Rok</option>
+            <option value="CZ">1994</option>
+            <option value="EN">1993</option>
+            <option value="NJ">2000</option>
+        </select>
+        <button type="submit" class="col-md-2 navbar-right">Zobrazit</button>
+    </form>
+</div>
+
+{% for i in 1..21 %}
+<div class="col-md-3">
+    <h3>Vykoupení z věznice Shawshank</h3>
+    <p><strong>Reziser:</strong> Frank Darabont<br />
+        <strong>Herec:</strong> Morgan Freeman<br />
+        <strong>Rok:</strong> 1994<br />
+        <strong>Jazyk:</strong> CZ<br />
+    </p>
+    <p><img src="../covers/{{i }}.jpg" alt="film"></p>
+    <p><button id="{{i}}" class="btn btn-default" name="Vykoupení z věznice Shawshank" onclick="alrt(this.id, this.name);" role="button">Pujcit &raquo;</button></p>
+</div>
+{% endfor %}
+
+
+<script>
+    function alrt(id, name) {
+        var msg = $('<div class="alert alert-success navbar-fixed-top" role="alert">Pridano '+ name +'</div>');
+        $('#flashMsg').append(msg);
+        setTimeout(function () {
+            msg.remove();
+            window.location = '/basket/'+id;
+        }, 1000);
+    }
+</script>
+
+{% endblock content %}
+

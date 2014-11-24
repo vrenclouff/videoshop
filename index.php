@@ -1,5 +1,5 @@
 <?php
-
+//    session_start();
 
     function autoloadFnc($class)
     {
@@ -18,7 +18,9 @@
 
     spl_autoload_register("autoloadFnc");
 
-    session_start();
+//    Stat::start_session();
+
+
     $router = new RouterController();
     $router->make(array($_SERVER['REQUEST_URI']));
 ?>

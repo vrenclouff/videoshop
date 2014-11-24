@@ -7,14 +7,14 @@ class RegistrationController extends AbsController
 
          $profil = @$_POST['registration'];
 
-         $this->render();
-
          if (isset($profil)){
              $profil = $this->validParam($profil);
              $id = $this->db->DBInsertExpanded('uzivatele', $profil);
              if($id > 0){
                 echo "<br /> registrace dokoncena <br />";
              }
+         }else{
+            $this->render();
          }
     }
 
@@ -72,7 +72,6 @@ class RegistrationController extends AbsController
     private function prepare_for_db($profil){
         extract($profil);
         $item = array(
-//            array('column' => 'idprofil', 'value_mysql' => "'".'3'."'"),
             array('column' => 'fname', 'value_mysql' => "'".$FName."'"),
             array('column' => 'lname', 'value_mysql' => "'".$LName."'"),
             array('column' => 'email', 'value_mysql' => "'".$email."'"),
@@ -83,29 +82,14 @@ class RegistrationController extends AbsController
             array('column' => 'tel', 'value_mysql' => "'".$tel."'"),
             array('column' => 'opravneni', 'value_mysql' => "'"."user"."'")
         );
-//        $item = array(
-////            array('column' => 'idprofil', 'value_mysql' => '1'),
-//            array('column' => 'fname', 'value_mysql' => $FName),
-//            array('column' => 'lname', 'value_mysql' => $LName),
-//            array('column' => 'email', 'value_mysql' => $email),
-//            array('column' => 'heslo', 'value_mysql' => $pass),
-//            array('column' => 'mesto', 'value_mysql' => $city),
-//            array('column' => 'psc', 'value_mysql' => $psc),
-//            array('column' => 'ulice', 'value_mysql' => $street),
-//            array('column' => 'tel', 'value_mysql' => $tel),
-//            array('column' => 'opravneni', 'value_mysql' => "user")
-//        );
         return $item;
     }
 
 
     private function render(){
 
-        $this->data = array('title' => 'Půjčovna filmů');
-        $this->temp = 'login';
-        $this->view();
-
         $this->data = array(
+               'title' => 'Půjčovna filmů',
                'FName' => 'Křestní jméno',
                'LName' => 'Příjmení',
                'Email' => 'Email',

@@ -1,6 +1,5 @@
 <?php
 
-
 abstract class AbsController
 {
 
@@ -18,10 +17,18 @@ abstract class AbsController
 
     public function view()
     {
-        if ($this->temp)
-        {
-             $html = $this->twig->loadTemp($this->temp);
-             echo $html->render($this->data);
+        if($this->temp){
+//            if(!isset($_SESSION["user_islogin"])){
+////                echo $_SESSION['user_islogin']."<br />";
+                $this->temp .= '_nlg';
+//            }
+//
+//            echo "<br />".$this->temp."<br />";
+
+            $html = $this->twig->loadTemp($this->temp);
+            echo $html->render($this->data);
+        }else{
+             $this->homepage();
         }
     }
 
@@ -34,13 +41,18 @@ abstract class AbsController
 
     public function homepage(){
 
-        $this->data = array('title' => 'Půjčovna filmů');
+        $this->data = array(
+               'title' => 'Půjčovna filmů',
+               'text' => 'Pro pujcovani filmu je potreba byt prihlaseny',
+               'button' => 'Registrace »'
+        );
         $this->temp = 'login';
         $this->view();
 
-        $this->data = array('text' => 'neco', 'button' => 'Registrace »');
-        $this->temp = 'singup';
+        $this->temp = 'content';
         $this->view();
+
+        $this->set_url('');
     }
 
 }

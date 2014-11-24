@@ -10,11 +10,11 @@ class RouterController extends AbsController
         public function make($param)
         {
 
-//            print_r($param);
             $url = $this->parseURL($param[0]);
+//            print_r($url);
 
             if (empty($url[0])){
-                $this->homepage();
+                    $this->view();
             }
             $classController = $this->toCS(array_shift($url)) . 'Controller';
 
@@ -23,7 +23,8 @@ class RouterController extends AbsController
                     $this->controller = new $classController;
             }
             else{
-                    $this->set_url('error');
+//                    $this->set_url('error');
+//                $this->view();
             }
 
             $this->controller->make($url);
