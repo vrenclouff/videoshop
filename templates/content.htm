@@ -2,27 +2,29 @@
 
 {% block content %}
 
+
+
 <div class="jumbotron">
     <form class="navbar-form navbar-center" action="filtr" method="post" role="form">
-        <select class="col-md-2" name="filtr[dabing]">
+        <select class="col-md-2 dropdown-toggle" name="filtr[dabing]">
             <option value="all">Dabing</option>
             <option {{ 'name=set'|default('selected') }} value="CZ">CZ</option>
             <option value="EN">EN</option>
             <option value="NJ">NJ</option>
         </select>
-        <select class="col-md-2" name="filtr[actors]">
+        <select class="col-md-2 dropdown-toggle" name="filtr[actors]">
             <option value="all">Herci</option>
             <option value="Morgan Freeman">Morgan Freeman</option>
             <option value="Tom Hanks">Tom Hanks</option>
             <option value="Jack Nicholson">Jack Nicholson</option>
         </select>
-        <select class="col-md-2" name="filtr[director]">
+        <select class="col-md-2 dropdown-toggle" name="filtr[director]">
             <option value="all">Reziser</option>
             <option value="Miloš Forman">Miloš Forman</option>
             <option value="Robert Zemeckis">Robert Zemeckis</option>
             <option value="Frank Darabont">Frank Darabont</option>
         </select>
-        <select class="col-md-2" name="filtr[year]">
+        <select class="col-md-2 dropdown-toggle" name="filtr[year]">
             <option value="all">Rok</option>
             <option value="1994">1994</option>
             <option value="1993">1993</option>

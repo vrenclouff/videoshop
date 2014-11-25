@@ -14,8 +14,6 @@ class ProfilController extends AbsController
             'PasswordOld' => 'Stare heslo',
             'PasswordOldAgain' => 'Stare heslo znovu',
             'PasswordNew' => 'Nove heslo',
-            'FName_name' => 'Křestní jméno *',
-            'LName_name' => 'Příjmení *',
             'Tel_name' => 'Telefon',
             'City_name' => 'Město',
             'PSC_name' => 'PSC',

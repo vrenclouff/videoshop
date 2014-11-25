@@ -8,10 +8,22 @@ class BasketController extends AbsController
     public function make($param){
 
 //            print_r($param);
+            $today = @date("j. n. Y");
 
             if(empty($param)){
-                print_r($_SESSION["basket"]);
+//                print_r($_SESSION["basket"]);
+                $this->data = array(
+                    'title' => 'Půjčovna filmů',
+                    'FName' => $_SESSION['user_profil']['fname'],
+                    'LName' => $_SESSION['user_profil']['lname'],
+                    'date' => $today
+                );
+                $this->temp = 'basket';
                 $this->view();
+                exit;
+
+
+
 
                 // get ID movies from session
                 // from database get moview
