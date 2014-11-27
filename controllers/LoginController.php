@@ -39,14 +39,12 @@ class LoginController extends AbsController
                 'value' => $login['pass']
             )
         );
-        $profil = $this->db->DBSelectOne('uzivatele', '*', $dat, '');
+        $profil = $this->db->DBSelectOne('profil', '*', $dat, '');
 
        if($profil){
             $_SESSION['user_profil'] = $profil;
             $_SESSION["user_islogin"] = true;
             $_SESSION["basket"] = array();
-//            echo "set session <br />";
-//            echo $_SESSION['user_islogin']."<br />";
        }else{
             session_destroy();
        }

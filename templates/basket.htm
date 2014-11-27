@@ -6,7 +6,7 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="/">{{ title }}</a>
         </div>
-        <a class="btn btn-success navbar-btn navbar-right" href="/login/logout" role="button">Odhlasit</a>
+        <a class="btn btn-success navbar-btn navbar-right" href="/login/logout" role="button">Odhlásit</a>
         <a class="btn navbar-btn navbar-right" href="basket"><img src="../icon.png" alt="kosik" height="20"></a>
         <a class="btn navbar-brand  navbar-right" href="profil">{{ FName }} {{ LName }}</a>
     </div>
@@ -24,20 +24,26 @@
             <th></th>
         </tr>
     </thead>
-        {% for i in 1..4 %}
+    <tbody>
+        {% for movie in basket %}
         <tr>
-            <td>{{i}}</td>
-            <td><img src="../covers/{{ i }}.jpg" alt="film" height="42"></td>
-            <td>Vykoupení z věznice Shawshank</td>
+            <td>{{ movie.nm }}</td>
+            <td><img src="../covers/{{ movie.cover_link }}" alt="{{ movie.name }}" height="42"></td>
+            <td>{{ movie.name }}</td>
             <td>{{ date }}</td>
-            <td>99 Kc</td>
-            <td><button type="button" class="btn btn-xs btn-danger">Odebrat</button></td>
+            <td>{{ movie.price }} Kč</td>
+            <td><a class="btn btn-xs btn-danger" href="/basket/rm/{{ movie.id }}" role="button">Odebrat</a></td>
         </tr>
         {% endfor %}
-    <tbody>
-
     </tbody>
 </table>
-<button type="submit" class="btn btn-default navbar-right">Pujcit</button>
+<div class="text-center">
+    <p>______________________________</p>
+    <p><strong>Celková cena:</strong> {{ total }} Kč</p>
+</div>
+{% if basket %}
+<a class="btn btn-default navbar-right" href="basket/borrow" role="button">Pujčit</a>
+{% endif %}
+
 {% endblock content %}
 

@@ -48,12 +48,18 @@ abstract class AbsController
         }else{
             $this->data = array(
                 'title' => 'Půjčovna filmů',
-                'FName' => $_SESSION['user_profil']['fname'],
-                'LName' => $_SESSION['user_profil']['lname']
+                'FName' => $_SESSION['user_profil']['fjmeno'],
+                'LName' => $_SESSION['user_profil']['ljmeno']
             );
         }
         $this->temp = 'login';
         $this->view();
+
+        $movies =  $this->db->DBSelectAll('film', '*', array(), '');
+//        print_r($movies);
+        $this->data = array(
+            'movies' => $movies
+        );
 
         $this->temp = 'content';
         $this->view();

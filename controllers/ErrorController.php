@@ -2,7 +2,7 @@
 
 class ErrorController extends AbsController
 {
-    public function make($param);
+    public function make($param)
     {
         echo "error <br />";
 /*        // Hlavička požadavku

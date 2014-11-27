@@ -23,7 +23,7 @@ class RouterController extends AbsController
                     $this->controller = new $classController;
             }
             else{
-//                    $this->set_url('error');
+                    $this->set_url('error');
 //                $this->view();
             }
 

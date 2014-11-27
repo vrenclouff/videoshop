@@ -11,7 +11,7 @@ class RegistrationController extends AbsController
 
          if (isset($profil)){
              $profil = $this->validParam($profil);
-             $id = $this->db->DBInsertExpanded('uzivatele', $profil);
+             $id = $this->db->DBInsertExpanded('profil', $profil);
              if($id > 0){
                 echo "<script type='text/javascript'>alert('Registrace dokoncena');</script>";
                 $this->view();
@@ -50,7 +50,7 @@ class RegistrationController extends AbsController
             $this->set_url('registration');
         }
         $dat = array(array('column' => 'email', 'symbol' => '=', 'value' => $email));
-        $error = $this->db->DBSelectOne('uzivatele', 'email', $dat, '');
+        $error = $this->db->DBSelectOne('profil', 'email', $dat, '');
         echo $error;
         if(!empty($error['email'])){
             echo "zivatel s mailem je je v databazi <br />";
@@ -83,8 +83,9 @@ class RegistrationController extends AbsController
     private function prepare_for_db($profil){
         extract($profil);
         $item = array(
-            array('column' => 'fname', 'value_mysql' => "'".$FName."'"),
-            array('column' => 'lname', 'value_mysql' => "'".$LName."'"),
+            array('column' => 'idprofil', 'value_mysql' => "NULL"),
+            array('column' => 'fjmeno', 'value_mysql' => "'".$FName."'"),
+            array('column' => 'ljmeno', 'value_mysql' => "'".$LName."'"),
             array('column' => 'email', 'value_mysql' => "'".$email."'"),
             array('column' => 'heslo', 'value_mysql' => "'".$pass."'"),
             array('column' => 'mesto', 'value_mysql' => "'".$city."'"),

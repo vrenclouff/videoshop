@@ -34,23 +34,23 @@
     </form>
 </div>
 
-{% for i in 1..21 %}
+{% for movie in movies %}
 <div class="col-md-3">
-    <h3>Vykoupení z věznice Shawshank</h3>
+    <h3>{{ movie.nazev }}</h3>
     <p><strong>Reziser:</strong> Frank Darabont<br />
         <strong>Herec:</strong> Morgan Freeman<br />
-        <strong>Rok:</strong> 1994<br />
+        <strong>Rok:</strong> {{ movie.rok_vydani }}<br />
         <strong>Jazyk:</strong> CZ<br />
     </p>
-    <p><img src="../covers/{{i }}.jpg" alt="film"></p>
-    <p><button id="{{i}}" class="btn btn-default" name="{{ i }}" onclick="alrt(this.id, this.name);" role="button">Pujcit &raquo;</button></p>
+    <p><img src="../covers/{{ movie.cover_link }}" alt="film"></p>
+    <p><button id="{{ movie.idfilm}}" class="btn btn-default" name="{{ movie.nazev}}" onclick="alrt(this.id, this.name);" role="button">Pujcit &raquo;</button></p>
 </div>
 {% endfor %}
 
 
 <script>
     function alrt(id, name) {
-        var msg = $('<div class="alert alert-success navbar-fixed-top" role="alert">'+ name +' vlozeno do kosiku</div>');
+        var msg = $('<div class="alert alert-success navbar-fixed-top" role="alert"><strong>'+ name +'</strong> vlozeno do kosiku</div>');
         $('#flashMsg').append(msg);
         setTimeout(function () {
             msg.remove();
