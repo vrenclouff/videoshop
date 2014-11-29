@@ -7,10 +7,8 @@ class BasketController extends AbsController
 
     public function make($param){
 
-//            print_r($param);
-
             if(empty($param)){
-//                print_r($_SESSION["basket"]);
+
                 $this->render();
 
             }else if($param[0] == 'rm'){
@@ -31,27 +29,20 @@ class BasketController extends AbsController
                     array_push($_SESSION["basket"], $param[0]);
                 }
                 $this->set_url('');
+
             }else if($param[0] == 'borrow'){
+
                 extract($_SESSION['user_profil']);
 
                 $this->data = array(
-                    'title' => 'Půjčovna filmů',
-                    'PasswordOld' => 'Stare heslo',
-                    'PasswordOldAgain' => 'Stare heslo znovu',
-                    'PasswordNew' => 'Nove heslo',
-                    'Tel_name' => 'Telefon',
-                    'City_name' => 'Město',
-                    'PSC_name' => 'PSC',
-                    'Street_name' => 'Ulice',
-                    'fname' => $fname,
-                    'lname' => $lname,
+                    'fname' => $fjmeno,
+                    'lname' => $ljmeno,
                     'tel' => $tel,
                     'city' => $mesto,
                     'psc' => $psc,
                     'street' => $ulice,
                     'Email' => $email
                 );
-
                 $this->temp = 'borrow';
                 $this->view();
             }
@@ -96,9 +87,8 @@ class BasketController extends AbsController
         }
 
         $this->data = array(
-            'title' => 'Půjčovna filmů',
-            'FName' => $_SESSION['user_profil']['fjmeno'],
-            'LName' => $_SESSION['user_profil']['ljmeno'],
+            'fname' => $_SESSION['user_profil']['fjmeno'],
+            'lname' => $_SESSION['user_profil']['ljmeno'],
             'date' => $today,
             'total' => $total,
             'basket' => $bin

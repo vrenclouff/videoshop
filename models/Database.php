@@ -148,20 +148,20 @@ class Database
 	 				echo "asi chyba v metode DBSelectAll - chybi klic column <br/>";
 					continue;
 	 				}
-	 					
+
 	 				$column = $item["column"];					// pozor na column, mohlo by projit SQL injection
 	 				$symbol = $item["symbol"];
-	
+
 	 				if (key_exists("value", $item))
 	 				$value_pom = "?"; 						// budu to navazovat
 	 				else if (key_exists("value_mysql", $item))
 					$value_pom = $item["value_mysql"]; 		// je to systemove, vlozit rovnou - POZOR na SQL injection, tady to muze projit
-	
-	
+
+
 	 				//echo "`$column` $symbol  $value_pom ";
-	 				$where_pom .= "`$column` $symbol  $value_pom ";
+	 				$where_pom .= "$column $symbol  $value_pom ";
 	 	}
-	
+
 	 	// doplnit slovo where
 	 	if (trim($where_pom) != "") $where_pom = "where $where_pom";
 	
@@ -187,8 +187,8 @@ class Database
 	 			
 	
 	 		// 1) pripravit dotaz s dotaznikama
-	 		$query = "select $select_columns_string from `".$table_name."` $where_pom $order_by_pom $limit_string;";
-	 		//echo $query;
+	 		$query = "select $select_columns_string from $table_name $where_pom $order_by_pom $limit_string;";
+//	 		echo $query;
 	
 	 		// 2) pripravit si statement
 	 		$statement = self::$connection->prepare($query);
@@ -235,6 +235,46 @@ class Database
 					echo "SQL dotaz: $query";
 	 	}
 	 	}
+
+	 public function ViaSQL($query){
+
+     	 	// vznik chyby v PDO
+     	 	$mysql_pdo_error = false;
+
+//            $query = "select $sql ;";
+// 	 		echo $query;
+
+            // 2) pripravit si statement
+            $statement = self::$connection->prepare($query);
+
+            // 3) NAVAZAT HODNOTY k otaznikum dle poradi od 1
+            $bind_param_number = 1;
+
+            // 4) provest dotaz
+            $statement->execute();
+
+            // 5) kontrola chyb
+            $errors = $statement->errorInfo();
+            //printr($errors);
+
+            if ($errors[0] + 0 > 0)
+            {
+                // nalezena chyba
+                $mysql_pdo_error = true;
+            }
+
+     	    // 6) nacist data a vratit
+     	 	if ($mysql_pdo_error == false)
+     	 	{
+                $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+                return $rows;
+     	 	}else
+     	 	{
+     	 	    echo "Chyba v dotazu - PDOStatement::errorInfo(): ";
+//				printr($errors);
+                echo "SQL dotaz: $query";
+     	 	}
+     }
 	
 	/**
 	 * 
@@ -396,7 +436,7 @@ class Database
 	 */
 	public function DBUpdate()
 	{
-	
+
 	}
 	
 	// KONEC UNIVERZALNI METODY

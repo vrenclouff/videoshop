@@ -11,7 +11,6 @@ class RouterController extends AbsController
         {
 
             $url = $this->parseURL($param[0]);
-//            print_r($url);
 
             if (empty($url[0])){
                     $this->view();
@@ -19,12 +18,10 @@ class RouterController extends AbsController
             $classController = $this->toCS(array_shift($url)) . 'Controller';
 
             if (file_exists('controllers/' . $classController . '.php')){
-//                    echo $classController."<br />";
                     $this->controller = new $classController;
             }
             else{
                     $this->set_url('error');
-//                $this->view();
             }
 
             $this->controller->make($url);

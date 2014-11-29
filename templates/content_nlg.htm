@@ -4,46 +4,46 @@
 
 <div class="jumbotron">
     <form class="navbar-form navbar-center" action="filtr" method="post" role="form">
-        <select class="col-md-2" name="filtr[dabing]">
-            <option value="all">Dabing</option>
-            <option {{ 'name=set'|default('selected') }} value="CZ">CZ</option>
-            <option value="EN">EN</option>
-            <option value="NJ">NJ</option>
+        <select class="col-md-2 dropdown-toggle" name="filtr[dabing]">
+                <option value="0">Jazyk</option>
+            {% for dabing in dabings %}
+                <option value="{{ dabing.iddabing }}">{{ dabing.jazyk }}</option>
+            {% endfor %}
         </select>
-        <select class="col-md-2" name="filtr[actors]">
-            <option value="all">Herci</option>
-            <option value="Morgan Freeman">Morgan Freeman</option>
-            <option value="Tom Hanks">Tom Hanks</option>
-            <option value="Jack Nicholson">Jack Nicholson</option>
+        <select class="col-md-2 dropdown-toggle" name="filtr[actors]">
+                <option value="0">Herec</option>
+            {% for actor in actors %}
+                <option value="{{ actor.idherci }}">{{ actor.jmeno_herci }} {{ actor.prijmeni_herci }}</option>
+            {% endfor %}
         </select>
-        <select class="col-md-2" name="filtr[director]">
-            <option value="all">Reziser</option>
-            <option value="Miloš Forman">Miloš Forman</option>
-            <option value="Robert Zemeckis">Robert Zemeckis</option>
-            <option value="Frank Darabont">Frank Darabont</option>
+        <select class="col-md-2 dropdown-toggle" name="filtr[director]">
+                <option value="0">Reziser</option>
+            {% for director in directors %}
+                <option value="{{ director.idreziser }}">{{ director.jmeno_reziser }} {{ director.prijmeni_reziser }}</option>
+            {% endfor %}
         </select>
-        <select class="col-md-2" name="filtr[year]">
-            <option value="all">Rok</option>
-            <option value="1994">1994</option>
-            <option value="1993">1993</option>
-            <option value="2000">2000</option>
+        <select class="col-md-2 dropdown-toggle" name="filtr[year]">
+                <option value="0">Rok</option>
+            {% for year in years %}
+                <option value="{{ year.rok_vydani }}">{{ year.rok_vydani }}</option>
+            {% endfor %}
         </select>
         <button type="submit" class="col-md-2 navbar-right">Zobrazit</button>
     </form>
 </div>
 
 {% for movie in movies %}
-<div class="col-md-3">
+<div class="col-md-4">
     <h3>{{ movie.nazev }}</h3>
-    <p><strong>Reziser:</strong> Frank Darabont<br />
-        <strong>Herec:</strong> Morgan Freeman<br />
+    <p>
+        <strong>Reziser:</strong> {{ movie.jmeno_reziser }} {{ movie.prijmeni_reziser }}<br />
+        <strong>Herec:</strong> {{ movie.jmeno_herci }} {{ movie.prijmeni_herci }}<br />
         <strong>Rok:</strong> {{ movie.rok_vydani }}<br />
-        <strong>Jazyk:</strong> CZ<br />
+        <strong>Jazyk:</strong> {{ movie.jazyk }}<br />
     </p>
     <p><img src="../covers/{{ movie.cover_link }}" alt="film"></p>
 </div>
 {% endfor %}
-
 
 <script>
     function alrt(id, name) {
