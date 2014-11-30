@@ -21,7 +21,9 @@ class RouterController extends AbsController
                     $this->controller = new $classController;
             }
             else{
-                    $this->set_url('error');
+                    $this->temp = 'error';
+                    $this->view();
+                    exit;
             }
 
             $this->controller->make($url);

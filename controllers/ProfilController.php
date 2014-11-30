@@ -5,6 +5,10 @@ class ProfilController extends AbsController
 
     public function make($param){
 
+        $this->checkForError();
+
+        $update = @$_POST['update'];
+
         extract($_SESSION['user_profil']);
 
         $this->data = array(

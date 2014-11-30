@@ -125,6 +125,7 @@ class RegistrationController extends AbsController
 
     private function prepare_for_db($profil){
         extract($profil);
+        if($tel){ $tel = "'".$tel."'"; } else { $tel = "NULL"; }
         $item = array(
             array('column' => 'idprofil', 'value_mysql' => "NULL"),
             array('column' => 'fjmeno', 'value_mysql' => "'".$FName."'"),
@@ -134,7 +135,7 @@ class RegistrationController extends AbsController
             array('column' => 'mesto', 'value_mysql' => "'".$city."'"),
             array('column' => 'psc', 'value_mysql' => "'".$psc."'"),
             array('column' => 'ulice', 'value_mysql' => "'".$street."'"),
-            array('column' => 'tel', 'value_mysql' => "'".$tel."'"),
+            array('column' => 'tel', 'value_mysql' => $tel),
             array('column' => 'opravneni', 'value_mysql' => "'"."user"."'")
         );
         return $item;

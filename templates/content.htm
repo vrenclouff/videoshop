@@ -3,29 +3,45 @@
 {% block content %}
 
 <div class="jumbotron">
-    <form class="navbar-form navbar-center" action="filtr" method="post" role="form">
-        <select class="col-md-2 dropdown-toggle" name="filtr[dabing]">
-                <option value="0">Jazyk</option>
-            {% for dabing in dabings %}
-                <option value="{{ dabing.iddabing }}">{{ dabing.jazyk }}</option>
+    <form class="navbar-form navbar-center" action="/" method="post" role="form">
+        <select class="col-md-2 dropdown-toggle" name="filtr[dabing_filtr]">
+            <option value="0">Jazyk</option>
+            {% for key, dabing in dabings %}
+                {% if dabing_def == key+1 %}
+                    <option value="{{ dabing.iddabing }}" selected >{{ dabing.jazyk }}</option>
+                {% else %}
+                    <option value="{{ dabing.iddabing }}">{{ dabing.jazyk }}</option>
+                {% endif %}
             {% endfor %}
         </select>
-        <select class="col-md-2 dropdown-toggle" name="filtr[actors]">
+        <select class="col-md-2 dropdown-toggle" name="filtr[actor_filtr]">
                 <option value="0">Herec</option>
-            {% for actor in actors %}
-                <option value="{{ actor.idherci }}">{{ actor.jmeno_herci }} {{ actor.prijmeni_herci }}</option>
+            {% for key, actor in actors %}
+                {% if actor_def == key+1 %}
+                    <option value="{{ actor.idherci }}" selected >{{ actor.jmeno_herci }} {{ actor.prijmeni_herci }}</option>
+                {% else %}
+                    <option value="{{ actor.idherci }}">{{ actor.jmeno_herci }} {{ actor.prijmeni_herci }}</option>
+                {% endif %}
             {% endfor %}
         </select>
-        <select class="col-md-2 dropdown-toggle" name="filtr[director]">
-                <option value="0">Reziser</option>
-            {% for director in directors %}
-                <option value="{{ director.idreziser }}">{{ director.jmeno_reziser }} {{ director.prijmeni_reziser }}</option>
+        <select class="col-md-2 dropdown-toggle" name="filtr[director_filtr]">
+                <option value="0">Režisér</option>
+            {% for key, director in directors %}
+                {% if director_def == key+1 %}
+                    <option value="{{ director.idreziser }}" selected >{{ director.jmeno_reziser }} {{ director.prijmeni_reziser }}</option>
+                {% else %}
+                    <option value="{{ director.idreziser }}">{{ director.jmeno_reziser }} {{ director.prijmeni_reziser }}</option>
+                {% endif %}
             {% endfor %}
         </select>
-        <select class="col-md-2 dropdown-toggle" name="filtr[year]">
+        <select class="col-md-2 dropdown-toggle" name="filtr[year_filtr]">
                 <option value="0">Rok</option>
-            {% for year in years %}
-                <option value="{{ year.rok_vydani }}">{{ year.rok_vydani }}</option>
+            {% for key, year in years %}
+                {% if year_def == year.rok_vydani %}
+                    <option value="{{ year.rok_vydani }}" selected>{{ year.rok_vydani }}</option>
+                {% else %}
+                    <option value="{{ year.rok_vydani }}">{{ year.rok_vydani }}</option>
+                {% endif %}
             {% endfor %}
         </select>
         <button type="submit" class="col-md-2 navbar-right">Zobrazit</button>

@@ -7,6 +7,8 @@ class BasketController extends AbsController
 
     public function make($param){
 
+            $this->checkForError();
+
             if(empty($param)){
 
                 $this->render();

@@ -4,8 +4,6 @@ class LoginController extends AbsController
 
     public function make($param){
 
-//        print_r($param);
-
         $login = @$_POST['login'];
         $login = $this->validParam($login);
 
