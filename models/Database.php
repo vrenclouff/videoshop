@@ -55,7 +55,7 @@ class Database
 					$value_pom = $item["value_mysql"]; 		// je to systemove, vlozit rovnou - POZOR na SQL injection, tady to muze projit
 	
 	
-				$where_pom .= "`$column` $symbol  $value_pom ";
+				$where_pom .= "$column $symbol  '$value_pom' ";
 			}
 	
 			// doplnit slovo where

@@ -20,50 +20,59 @@ class RegistrationController extends AbsController
          }
     }
 
+    private function render_back($profil){
+
+        $this->data = $profil;
+        $this->temp = 'registration';
+        $this->view();
+        exit;
+    }
+
     private function validParam($profil){
 
         extract($profil);
 
         if(empty($pass) && $pass != $pass2){
-              $message = "Hesla se neshoduji";
-              echo "<script type='text/javascript'>alert('$message');</script>";
-              $this->set_url('registration');
+              echo "<script type='text/javascript'>alert('Hesla se neshodují');</script>";
+              $this->render_back($profil);
         }
         if(empty($FName)){
-            $message = "Zadejte jmeno";
-            echo "<script type='text/javascript'>alert('$message');</script>";
-            $this->set_url('registration');
+            echo "<script type='text/javascript'>alert('Zadejte křestní jméno');</script>";
+            $this->render_back($profil);
         }
         if(empty($LName)){
-            echo "Zadejte prijmeni <br />";
-            $this->set_url('registration');
+            echo "<script type='text/javascript'>alert('Zadejte Příjmení');</script>";
+            $this->render_back($profil);
         }
         if(empty($email)){
-            echo "Zadejte email <br />";
-            $this->set_url('registration');
+            echo "<script type='text/javascript'>alert('Zadejte email');</script>";
+            $this->render_back($profil);
         }
         $dat = array(array('column' => 'email', 'symbol' => '=', 'value' => $email));
         $error = $this->db->DBSelectOne('profil', 'email', $dat, '');
         echo $error;
         if(!empty($error['email'])){
-            echo "zivatel s mailem je je v databazi <br />";
-            $this->set_url('registration');
+            echo "<script type='text/javascript'>alert('Uživatel se žádaným emailem už je registrovaný');</script>";
+            $this->render_back($profil);
         }
         if(empty($city)){
-            echo "Zadejte mesto <br />";
-            $this->set_url('registration');
+            echo "<script type='text/javascript'>alert('Zadejte Město');</script>";
+            $this->render_back($profil);
         }
         if(empty($psc) || strlen($psc) != 5 || intval($psc) == 0){
-            echo "Zadejte PSC <br />";
-            $this->set_url('registration');
+            if(!preg_match('/^[0-9]{5}$/', $psc)){
+                echo "<script type='text/javascript'>alert('Zadejte správné PSČ Správný tvar - např: 10093');</script>";
+                $this->render_back($profil);
+            }
         }
         if(empty($street)){
-            echo "Zadejte ulici <br />";
-            $this->set_url('registration');
+            echo "<script type='text/javascript'>alert('Zadejte ulici');</script>";
+            $this->render_back($profil);
         }
         if(!empty($tel)){
-            if(intval($tel) == 0 || strlen($tel) != 9){
-                echo "Zadejte spravne cislo <br />";
+            if(!preg_match('/^[0-9]{3}[0-9]{3}[0-9]{4}$/', $tel)){
+                echo "<script type='text/javascript'>alert('Žádejte správné telefonní číslo Správný tvar - např: 777011349');</script>";
+                $this->render_back($profil);
             }
         }
 

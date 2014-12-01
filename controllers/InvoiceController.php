@@ -5,6 +5,8 @@ class InvoiceController extends AbsController
 
     public function make($param){
 
+        $this->checkForError();
+
         $total = $_SESSION["total_price"];
         $movies = $_SESSION["movies"];
         $profil = $_SESSION['user_profil'];

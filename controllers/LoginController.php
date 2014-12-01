@@ -29,12 +29,12 @@ class LoginController extends AbsController
             array(
                 'column' => 'email',
                 'symbol' => '=',
-                'value' => $login['email']
+                'value_mysql' => $login['email']
             ),
             array(
                 'column' => 'heslo',
                 'symbol' => '=',
-                'value' => $login['pass']
+                'value_mysql' => $login['pass']
             )
         );
         $profil = $this->db->DBSelectOne('profil', '*', $dat, '');
@@ -44,6 +44,7 @@ class LoginController extends AbsController
             $_SESSION["user_islogin"] = true;
             $_SESSION["basket"] = array();
        }else{
+            echo "<script type='text/javascript'>alert('Spatne heslo nebo email');</script>";
             session_destroy();
        }
 

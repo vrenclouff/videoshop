@@ -77,7 +77,7 @@ class BasketController extends AbsController
                 array(
                     'column' => 'idfilm',
                     'symbol' => '=',
-                    'value' => $value
+                    'value_mysql' => $value
                 ),
             );
             $film = $this->db->DBSelectOne('film', '*', $dat, '');

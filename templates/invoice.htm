@@ -20,22 +20,21 @@
 	</div>
 		
 	<p class="recipient-address">
-	<strong>{{ profil.fjmeno }} {{ profil.ljmeno }}</strong><br />
-	{{ profil.ulice }}<br />
-	{{ profil.mesto }}<br />
-    Česká republika<br />
-	{{ profil.psc }}</p>
+	    <strong>{{ profil.fjmeno }} {{ profil.ljmeno }}</strong><br />
+        {{ profil.ulice }},<br />
+        {{ profil.psc }} {{ profil.mesto }},<br />
+        Česká republika<br />
+	</p>
 	
 	<h1>Faktura {{ invoice_nm }}</h1>
 	<p class="terms"><strong>{{ today }}</strong><br/>
 	Splatnost do {{ payment }}</p>
 	
 	<p class="company-address">
-        Půjčovn filmů s.r.o.<br/>
-        Zličín 56<br/>
-		Praha<br/>
+        <strong>Půjčovn filmů s.r.o.</strong><br/>
+        Zličín 56,<br/>
+        30010 Praha, <br/>
         Česká republika<br/>
-		300 00<br/>
 	</p>
 	
 	<table id="table" class="tablesorter" cellspacing="0">
