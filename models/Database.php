@@ -271,7 +271,6 @@ class Database
      	 	}else
      	 	{
      	 	    echo "Chyba v dotazu - PDOStatement::errorInfo(): ";
-//				printr($errors);
                 echo "SQL dotaz: $query";
      	 	}
      }
@@ -430,13 +429,93 @@ class Database
 	 			 						echo "SQL dotaz: $query";
 		 			}
 	}
-	
-	/**
-	 * TODO tohle uz musite zvladnout sami.
-	 */
-	public function DBUpdate()
+
+	public function DBUpdate($table_name, $item, $where_array)
 	{
 
+        // vznik chyby v PDO
+        $mysql_pdo_error = false;
+
+        $set_pom = "";
+
+        if ($item != null){
+            foreach ($item as $row){
+
+                // pridat carky
+                if ($set_pom != "") $set_pom .= ", ";
+
+                $column = $row["column"];
+
+                if (key_exists("value", $row)){
+                    $value_pom = "?"; 						// budu to navazovat
+                }else if (key_exists("value_mysql", $row)){
+                    $value_pom = $row["value_mysql"]; 		// je to systemove, vlozit rovnou - POZOR na SQL injection, tady to muze projit
+                }
+
+                $set_pom .= "`$column` = $value_pom";
+            }
+        }
+
+        if (trim($set_pom) != "") $set_pom = "set $set_pom";
+
+        $where_pom = "";
+
+        if ($where_array != null){
+            foreach ($where_array as $index => $item){
+                if ($where_pom != "") $where_pom .= " AND ";
+
+                if (!key_exists("column", $item)){
+                    echo "asi chyba v metode DBUpdate - chybi klic column <br/>";
+                    continue;
+                }
+
+                $column = $item["column"];					// pozor na column, mohlo by projit SQL injection
+                $symbol = $item["symbol"];
+
+                if (key_exists("value", $item))
+                $value_pom = "?"; 						// budu to navazovat
+                else if (key_exists("value_mysql", $item))
+                $value_pom = $item["value_mysql"]; 		// je to systemove, vlozit rovnou - POZOR na SQL injection, tady to muze projit
+
+
+                $where_pom .= "$column $symbol  $value_pom ";
+            }
+        }
+
+        if (trim($where_pom) != "") $where_pom = "where $where_pom";
+
+        $query = "update $table_name $set_pom $where_pom ;";
+//        echo $query;
+
+        // 2) pripravit si statement
+        $statement = self::$connection->prepare($query);
+
+        // 3) NAVAZAT HODNOTY k otaznikum dle poradi od 1
+        $bind_param_number = 1;
+
+        // 4) provest dotaz
+        $statement->execute();
+
+        // 5) kontrola chyb
+        $errors = $statement->errorInfo();
+        //printr($errors);
+
+        if ($errors[0] + 0 > 0)
+        {
+            // nalezena chyba
+            $mysql_pdo_error = true;
+        }
+
+        // 6) nacist data a vratit
+        if ($mysql_pdo_error == false)
+        {
+            $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $rows;
+        }else
+        {
+            echo "Chyba v dotazu - PDOStatement::errorInfo(): ";
+            echo "SQL dotaz: $query";
+        }
 	}
 	
 	// KONEC UNIVERZALNI METODY

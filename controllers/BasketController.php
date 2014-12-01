@@ -34,6 +34,12 @@ class BasketController extends AbsController
 
             }else if($param[0] == 'borrow'){
 
+                if($_SESSION["basket"] == null){
+                    $this->temp = 'error';
+                    $this->view();
+                    exit;
+                 }
+
                 extract($_SESSION['user_profil']);
 
                 $this->data = array(
@@ -47,6 +53,8 @@ class BasketController extends AbsController
                 );
                 $this->temp = 'borrow';
                 $this->view();
+            }else{
+                $this->render();
             }
     }
 
@@ -58,12 +66,10 @@ class BasketController extends AbsController
 
     public function prepare_data(){
 
-        $today = @date("j. n. Y");
-        $bin = array();
-        $total = 0;
+        $_SESSION["total_price"] = 0;
+        $_SESSION["movies"] = array();
+        $date = @date('j. n. Y', strtotime("+4 days"));
         $key = 1;
-
-        $price = 99;
 
         foreach ($_SESSION["basket"] as $value) {
 
@@ -74,26 +80,26 @@ class BasketController extends AbsController
                     'value' => $value
                 ),
             );
-            $profil = $this->db->DBSelectOne('film', '*', $dat, '');
+            $film = $this->db->DBSelectOne('film', '*', $dat, '');
 
 
             $tmp = array(
                 'nm' => $key++,
-                'id' => $profil['idfilm'],
-                'name' => $profil['nazev'],
-                'price' => $profil['cena'],
-                'cover_link' => $profil['cover_link']
+                'id' => $film['idfilm'],
+                'name' => $film['nazev'],
+                'price' => $film['cena'],
+                'cover_link' => $film['cover_link']
             );
-            $total += $profil['cena'];
-            array_push($bin, $tmp);
+            $_SESSION["total_price"] += $film['cena'];
+            array_push($_SESSION["movies"], $tmp);
         }
 
         $this->data = array(
             'fname' => $_SESSION['user_profil']['fjmeno'],
             'lname' => $_SESSION['user_profil']['ljmeno'],
-            'date' => $today,
-            'total' => $total,
-            'basket' => $bin
+            'date' => $date,
+            'total' => $_SESSION["total_price"],
+            'basket' => $_SESSION["movies"]
         );
 
     }

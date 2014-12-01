@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="css/invoice.css" type="text/css" charset="utf-8" />
+
+	<title>Faktura</title>
+
+</head>
+
+<body>
+
+<div id="page">
+	
+	<!--To change the status of the invoice, update class name. for example "status paid" or "status overdue". Possible options are: draft, sent, paid, overdue-->
+	<div class="status sent">
+		<p>Paid</p>
+	</div>
+		
+	<p class="recipient-address">
+	<strong>{{ profil.fjmeno }} {{ profil.ljmeno }}</strong><br />
+	{{ profil.ulice }}<br />
+	{{ profil.mesto }}<br />
+    Česká republika<br />
+	{{ profil.psc }}</p>
+	
+	<h1>Faktura {{ invoice_nm }}</h1>
+	<p class="terms"><strong>{{ today }}</strong><br/>
+	Splatnost do {{ payment }}</p>
+	
+	<p class="company-address">
+        Půjčovn filmů s.r.o.<br/>
+        Zličín 56<br/>
+		Praha<br/>
+        Česká republika<br/>
+		300 00<br/>
+	</p>
+	
+	<table id="table" class="tablesorter" cellspacing="0">
+
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Název filmu</th>
+            <th>Datum vrácení</th>
+            <th>Cena</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for movie in basket %}
+            <tr>
+                <td>{{ movie.nm }}</td>
+                <td>{{ movie.name }}</td>
+                <td>{{ date }}</td>
+                <td>{{ movie.price }} Kč</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+	</table> 
+	
+	<div class="total-due">
+		<div class="total-heading"><p>Celková cena</p></div>
+		<div class="total-amount"><p>{{ total }} Kč</p></div>
+    </div>
+
+    <div class="page-shadow"></div>
+
+
+
+
+
+
+</body>
+</html>
