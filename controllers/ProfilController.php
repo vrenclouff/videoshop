@@ -53,24 +53,8 @@ class ProfilController extends AbsController
 
         extract($profil);
 
-        if(empty($FName)){
-            echo "<script type='text/javascript'>alert('Zadejte jmeno');</script>";
-            $this->render();
-        }
-        if(empty($LName)){
-            echo "<script type='text/javascript'>alert('Zadejte prijmeni');</script>";
-            $this->render();
-        }
-        if(empty($city)){
-            echo "<script type='text/javascript'>alert('Zadejte mesto');</script>";
-            $this->render();
-        }
         if(empty($psc) || strlen($psc) != 5 || intval($psc) == 0){
             echo "<script type='text/javascript'>alert('Zadejte PSC');</script>";
-            $this->render();
-        }
-        if(empty($street)){
-            echo "<script type='text/javascript'>alert('Zadejte ulici');</script>";
             $this->render();
         }
         if(!empty($tel)){
@@ -98,7 +82,7 @@ class ProfilController extends AbsController
         $item = array(
             array('column' => 'fjmeno', 'value_mysql' => "'".$FName."'"),
             array('column' => 'ljmeno', 'value_mysql' => "'".$LName."'"),
-            array('column' => 'heslo', 'value_mysql' => "'".$pass."'"),
+            //array('column' => 'heslo', 'value_mysql' => "'".$pass."'"),
             array('column' => 'mesto', 'value_mysql' => "'".$city."'"),
             array('column' => 'psc', 'value_mysql' => "'".$psc."'"),
             array('column' => 'ulice', 'value_mysql' => "'".$street."'"),

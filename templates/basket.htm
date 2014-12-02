@@ -39,7 +39,7 @@
 </table>
 <div class="text-center">
     <p>______________________________</p>
-    <p><strong>Celková cena:</strong> {{ total }} Kč</p>
+    <p><strong>Celková cena:</strong> {{ total | default('0') }} Kč</p>
 </div>
 {% if basket %}
 <a class="btn btn-default navbar-right" href="basket/borrow" role="button">Pujčit</a>

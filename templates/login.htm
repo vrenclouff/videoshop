@@ -4,11 +4,15 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">Půjčovna filmů</a>
+            <a class="navbar-brand active" href="/">Půjčovna filmů</a>
         </div>
-        <a class="btn btn-success navbar-btn navbar-right" href="/login/logout" role="button">Odhlásit</a>
-        <a class="btn navbar-btn navbar-right" href="basket"><img src="img/basket.png" alt="kosik" height="20"></a>
-        <a class="btn navbar-brand  navbar-right" href="profil">{{ fname }} {{ lname }}</a>
+
+        <div id="navbar" class="navbar-collapse collapse">
+
+            <a class="btn btn-success navbar-btn navbar-right" href="/login/logout" role="button">Odhlásit</a>
+            <a class="btn navbar-btn navbar-right" href="basket"><img src="img/basket.png" alt="kosik" height="20"></a>
+            <a class="btn navbar-brand  navbar-right" href="profil">{{ fname }} {{ lname }}</a>
+        </div>
     </div>
 </nav>
 {% endblock login %}

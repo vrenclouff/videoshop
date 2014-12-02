@@ -24,14 +24,6 @@ class BasketController extends AbsController
                 $this->set_url('basket');
                 $this->render();
 
-
-            }else if($param[0] > 0){
-
-                if(!in_array($param[0], $_SESSION["basket"])){
-                    array_push($_SESSION["basket"], $param[0]);
-                }
-                $this->set_url('');
-
             }else if($param[0] == 'borrow'){
 
                 if($_SESSION["basket"] == null){
@@ -53,6 +45,7 @@ class BasketController extends AbsController
                 );
                 $this->temp = 'borrow';
                 $this->view();
+
             }else{
                 $this->render();
             }
@@ -81,7 +74,6 @@ class BasketController extends AbsController
                 ),
             );
             $film = $this->db->DBSelectOne('film', '*', $dat, '');
-
 
             $tmp = array(
                 'nm' => $key++,
