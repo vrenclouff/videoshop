@@ -25,7 +25,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for movie in basket %}
+        {% for movie in basket if movie.name %}
         <tr>
             <td>{{ movie.nm }}</td>
             <td><img src="../covers/{{ movie.cover_link }}" alt="{{ movie.name }}" height="42"></td>

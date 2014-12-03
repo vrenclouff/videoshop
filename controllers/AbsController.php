@@ -17,6 +17,7 @@ abstract class AbsController
 
     public function view()
     {
+
         if($this->temp){
             if(!isset($_SESSION["user_islogin"])){
                 $this->temp .= '_nlg';
@@ -44,8 +45,8 @@ abstract class AbsController
 
     public function homepage(){
 
-        if(!isset($_SESSION["user_islogin"])){
-        }else{
+        if(isset($_SESSION["user_islogin"]))
+        {
             $this->data = array(
                 'fname' => $_SESSION['user_profil']['fjmeno'],
                 'lname' => $_SESSION['user_profil']['ljmeno']
