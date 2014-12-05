@@ -125,10 +125,6 @@ class Database
 	 */
 	 public function DBSelectAll($table_name, $select_columns_string, $where_array, $limit_string = "", $order_by_array = array())
 	 {
-	 	// PDO - MySQL
-	 	//echo "metoda DBSelectAll";
-	 	//printr(self::$connection);
-	 	//exit;
 	 	
 	 	// vznik chyby v PDO
 	 	$mysql_pdo_error = false;
@@ -273,6 +269,83 @@ class Database
      	 	    echo "Chyba v dotazu - PDOStatement::errorInfo(): ";
                 echo "SQL dotaz: $query";
      	 	}
+     }
+
+     public function DBDelete($table_name, $where_array)
+     {
+        // MySql
+        $mysql_pdo_error = false;
+
+        // SLOZIT TEXT STATEMENTU s otaznikama
+        $where_pom = "";
+
+       if ($where_array != null)
+            foreach ($where_array as $index => $item)
+            {
+            // pridat AND
+            if ($where_pom != "") $where_pom .= "AND ";
+
+            // pokud neexistuje klic column, tak preskocit
+            if (!key_exists("column", $item))
+            {
+                    echo "asi chyba v metode DBDelete - chybi klic column <br/>";
+                    continue;
+                    }
+
+                    $column = $item["column"];					// pozor na column, mohlo by projit SQL injection
+                    $symbol = $item["symbol"];
+
+                    if (key_exists("value", $item))
+                    $value_pom = "?"; 						// budu to navazovat
+                    else if (key_exists("value_mysql", $item))
+                    $value_pom = $item["value_mysql"]; 		// je to systemove, vlozit rovnou - POZOR na SQL injection, tady to muze projit
+
+
+                    //echo "`$column` $symbol  $value_pom ";
+                    $where_pom .= "$column $symbol  $value_pom ";
+        }
+
+            // 1) pripravit dotaz s dotaznikama
+            $query = "delete from `$table_name` where $where_pom ;";
+
+            // 2) pripravit si statement
+            $statement = self::$connection->prepare($query);
+
+            // 3) NAVAZAT HODNOTY k otaznikum dle poradi od 1
+            $bind_param_number = 1;
+
+            if ($item != null)
+                foreach ($item as $column => $value)
+                {
+                $statement->bindValue($bind_param_number, $value);  // vzdy musim dat value, abych si nesparoval promennou (to nechci)
+            $bind_param_number ++;
+            }
+
+            // 4) provest dotaz
+            $statement->execute();
+
+            // 5) kontrola chyb
+            $errors = $statement->errorInfo();
+            //printr($errors);
+
+            if ($errors[0] + 0 > 0)
+            {
+            // nalezena chyba
+            $mysql_pdo_error = true;
+            }
+
+            // 6) nacist ID vlozeneho zaznamu a vratit
+            if ($mysql_pdo_error == false)
+            {
+            $item_id = self::$connection->lastInsertId();
+            return $item_id;
+            }
+            else
+                {
+                echo "Chyba v dotazu - PDOStatement::errorInfo(): ";
+//	 			printr($errors);
+                echo "SQL dotaz: $query";
+                }
      }
 	
 	/**

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Administrace</title>
+
+
+    <link href="http://ironsummitmedia.github.io/startbootstrap-sb-admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://ironsummitmedia.github.io/startbootstrap-sb-admin/css/sb-admin.css" rel="stylesheet">
+    <link href="http://ironsummitmedia.github.io/startbootstrap-sb-admin/css/plugins/morris.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <style type="text/css"></style></head>
+
+<body>
+
+<div id="wrapper">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand fa-cogs fa" href="/admin">&nbsp;&nbsp;Administrace</a>
+        </div>
+        <ul class="nav navbar-right top-nav">
+            {% block login %}{% endblock login %}
+            <a class="btn btn-success navbar-btn navbar-left" href="http://localhost/admin/logout" role="button">Odhlásit</a>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="{{ selected_users | default('') }}">
+                        <a href="http://localhost/admin/users"><i class="fa fa-fw fa-user"></i> Uživatelé</a>
+                    </li>
+                    <li class="{{ selected_movies | default('') }}">
+                        <a href="http://localhost/admin/movies"><i class="fa fa-fw fa-film"></i> Filmy</a>
+                    </li>
+                    <li class="{{ selected_statistics | default('') }}">
+                        <a href="http://localhost/admin/statistics"><i class="fa fa-fw fa-bar-chart"></i> Statistika</a>
+                    </li>
+                </ul>
+            </div>
+        </ul>
+    </nav>
+
+    <div id="page-wrapper">
+        {% block content %}{% endblock content %}
+    </div>
+</div>
+
+</body></html>

@@ -38,7 +38,6 @@ class LoginController extends AbsController
 
         $login['pass'] = md5($login['pass']);
 
-//        print_r($login);
 
         $dat = array(
             array(

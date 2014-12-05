@@ -64,7 +64,11 @@ class Homepage
             'years' => $years,
             'directors' => $directors
         );
-
+//
+//        foreach($movies as $movie){
+//            print_r($movie);
+//            echo "<br />";
+//        }
 
         return $data;
     }

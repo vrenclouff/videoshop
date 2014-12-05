@@ -27,12 +27,12 @@
     <tbody>
         {% for movie in basket if movie.name %}
         <tr>
-            <td>{{ movie.nm }}</td>
+            <td>{{ loop.index }}</td>
             <td><img src="../covers/{{ movie.cover_link }}" alt="{{ movie.name }}" height="42"></td>
             <td>{{ movie.name }}</td>
             <td>{{ date }}</td>
             <td>{{ movie.price }} Kč</td>
-            <td><a class="btn btn-xs btn-danger" href="/basket/rm/{{ movie.id }}" role="button">Odebrat</a></td>
+            <td><a class="btn btn-xs btn-danger fa fa-trash-o" href="/basket/rm/{{ movie.id }}" role="button"></a></td>
         </tr>
         {% endfor %}
     </tbody>
@@ -42,7 +42,7 @@
     <p><strong>Celková cena:</strong> {{ total | default('0') }} Kč</p>
 </div>
 {% if basket %}
-<a class="btn btn-default navbar-right" href="basket/borrow" role="button">Pujčit</a>
+<a class="btn btn-default navbar-right fa-check fa" href="basket/borrow" role="button">&nbsp;&nbsp;Pujčit</a>
 {% endif %}
 
 {% endblock content %}

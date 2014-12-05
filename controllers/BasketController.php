@@ -9,60 +9,68 @@ class BasketController extends AbsController
 
             $this->checkForError();
 
-            if(empty($param)){
-
+            if(empty($param))
+            {
                 $this->render();
 
-            }else if($param[0] == 'rm'){
+            }else if($param[0] == 'rm')
+            {
+                $this->remove($param[1]);
 
-                $id = $param[1];
-                foreach($_SESSION["basket"] as $key => $val){
-                    if($val == $id){
-                        unset($_SESSION["basket"][$key]);
-                    }
-                }
-                $this->set_url('basket');
-                $this->render();
+            }else if($param[0] == 'borrow')
+            {
+                $this->borrow();
 
-            }else if($param[0] == 'borrow'){
-
-                if($_SESSION["basket"] == null){
-                    $this->temp = 'error';
-                    $this->view();
-                    exit;
-                 }
-
-                extract($_SESSION['user_profil']);
-
-                $this->data = array(
-                    'fname' => $fjmeno,
-                    'lname' => $ljmeno,
-                    'tel' => $tel,
-                    'city' => $mesto,
-                    'psc' => $psc,
-                    'street' => $ulice,
-                    'Email' => $email
-                );
-                $this->temp = 'borrow';
-                $this->view();
-
-            }else{
+            }else
+            {
                 $this->render();
             }
     }
 
-    public function render(){
+    private function render(){
         $this->prepare_data();
         $this->temp = 'basket';
         $this->view();
     }
 
-    public function prepare_data(){
+    private function remove($id){
+        foreach($_SESSION["basket"] as $key => $val){
+            if($val == $id){
+                unset($_SESSION["basket"][$key]);
+            }
+        }
+        $this->set_url('basket');
+        $this->render();
+    }
+
+    private function borrow(){
+        if($_SESSION["basket"] == null){
+            $this->temp = 'error';
+            $this->view();
+            exit;
+         }
+
+        extract($_SESSION['user_profil']);
+
+        $this->data = array(
+            'fname' => $fjmeno,
+            'lname' => $ljmeno,
+            'tel' => $tel,
+            'city' => $mesto,
+            'psc' => $psc,
+            'street' => $ulice,
+            'Email' => $email
+        );
+        $this->temp = 'borrow';
+        $this->view();
+    }
+
+
+    private function prepare_data(){
 
         $_SESSION["total_price"] = 0;
         $_SESSION["movies"] = array();
         $date = @date('j. n. Y', strtotime("+4 days"));
-        $key = 1;
 
         foreach ($_SESSION["basket"] as $value) {
 
@@ -76,7 +84,6 @@ class BasketController extends AbsController
             $film = $this->db->DBSelectOne('film', '*', $dat, '');
 
             $tmp = array(
-                'nm' => $key++,
                 'id' => $film['idfilm'],
                 'name' => $film['nazev'],
                 'price' => $film['cena'],

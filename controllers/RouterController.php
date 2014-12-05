@@ -15,9 +15,10 @@ class RouterController extends AbsController
             if (empty($url[0])){
                     $this->view();
             }
+
             $classController = $this->toCS(array_shift($url)) . 'Controller';
 
-            if (file_exists('controllers/' . $classController . '.php')){
+            if (file_exists('controllers/' . $classController . '.php') && $classController != 'AbsController'){
                     $this->controller = new $classController;
             }
             else{
