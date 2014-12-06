@@ -21,7 +21,7 @@
         </div>
         <div class="row">
             {% set color = ["panel-success", "panel-default", "panel-info", "panel-warning", "panel-danger"] %}
-            {% for user in 1..30 %}
+            {% for movie in count %}
             <div class="col-lg-3 col-md-6">
                 <div class="panel {{ color[ loop.index % 5 ] }}">
                     <div class="panel-heading">
@@ -30,8 +30,8 @@
                                 <i class="fa fa-film  fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">{{ loop.index }}</div>
-                                <div><strong>Vykoupení z věznice Shawshank</strong></div>
+                                <div class="huge">{{ movie.count }}</div>
+                                <div><strong>{{ movie.nazev }}</strong></div>
                             </div>
                         </div>
                     </div>

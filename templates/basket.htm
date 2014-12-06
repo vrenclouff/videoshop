@@ -41,7 +41,7 @@
     <p>______________________________</p>
     <p><strong>Celková cena:</strong> {{ total | default('0') }} Kč</p>
 </div>
-{% if basket %}
+{% if total %}
 <a class="btn btn-default navbar-right fa-check fa" href="basket/borrow" role="button">&nbsp;&nbsp;Pujčit</a>
 {% endif %}
 

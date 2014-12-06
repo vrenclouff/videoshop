@@ -13,17 +13,38 @@ class Homepage
 
         extract($this->dataFromDB());
 
-        $data = array(
-            'movies' => $movies,
-            'dabings' => $dabings,
-            'years' => $years,
-            'actors' => $actors,
-            'directors' => $directors,
-            'dabing_def' => $_SESSION["filtr"]['dabing_filtr'],
-            'actor_def' => $_SESSION["filtr"]['actor_filtr'],
-            'director_def' => $_SESSION["filtr"]['director_filtr'],
-            'year_def' => $_SESSION["filtr"]['year_filtr']
-        );
+        $data = array();
+
+        if(isset($_SESSION["user_islogin"]))
+        {
+            $data = array(
+                'movies' => $movies,
+                'dabings' => $dabings,
+                'years' => $years,
+                'actors' => $actors,
+                'directors' => $directors,
+                'dabing_def' => $_SESSION["filtr"]['dabing_filtr'],
+                'actor_def' => $_SESSION["filtr"]['actor_filtr'],
+                'director_def' => $_SESSION["filtr"]['director_filtr'],
+                'year_def' => $_SESSION["filtr"]['year_filtr'],
+                'fname' => $_SESSION['user_profil']['fjmeno'],
+                'lname' => $_SESSION['user_profil']['ljmeno']
+            );
+        }else{
+
+            $data = array(
+                'movies' => $movies,
+                'dabings' => $dabings,
+                'years' => $years,
+                'actors' => $actors,
+                'directors' => $directors,
+                'dabing_def' => $_SESSION["filtr"]['dabing_filtr'],
+                'actor_def' => $_SESSION["filtr"]['actor_filtr'],
+                'director_def' => $_SESSION["filtr"]['director_filtr'],
+                'year_def' => $_SESSION["filtr"]['year_filtr']
+            );
+
+        }
 
         return $data;
 
@@ -64,11 +85,6 @@ class Homepage
             'years' => $years,
             'directors' => $directors
         );
-//
-//        foreach($movies as $movie){
-//            print_r($movie);
-//            echo "<br />";
-//        }
 
         return $data;
     }

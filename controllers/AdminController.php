@@ -53,12 +53,19 @@ class AdminController extends LoginController
             $_SESSION["admin_filtr"] = 'all';
             $instants = new Admin_movies($this->db);
 
-            if(@$param[1] == 'add') $instants->add_movie();
+            if(@$param[1] == 'add'){
 
-            if(@$param[1] == 'rm'){
+              $instants->add_movie();
+
+            }else if(@$param[1] == 'rm'){
 
               $instants->rm_movie($param[2]);
               $this->set_url('admin/movies');
+
+            }else if(isset($_POST['add'])){
+
+                $instants->updateMovies($_POST['add']);
+                $this->set_url('admin/movies');
             }
 
         }else if(@$param[0] == 'statistics'){

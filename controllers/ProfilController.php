@@ -34,13 +34,19 @@ class ProfilController extends AbsController
 
         extract($_SESSION['user_profil']);
 
+        $sql = "select f.nazev, f.cover_link, f.cena, pf.datum_vypujceni from film as f inner join profil_has_film as pf on pf.film_idfilm = f.idfilm where pf.profil_idprofil = ".$idprofil.";";
+        $borrow = $this->db->ViaSQL($sql);
+
+
+
         $this->data = array(
             'fname' => $fjmeno,
             'lname' => $ljmeno,
             'tel' => $tel,
             'city' => $mesto,
             'psc' => $psc,
-            'street' => $ulice
+            'street' => $ulice,
+            'borrow' => $borrow
         );
 
         $this->temp = 'profil';
@@ -64,7 +70,7 @@ class ProfilController extends AbsController
             }
         }
 
-        if(isset($passNew)){
+        if($passNew != ''){
             if($passOld == $passOld2){
                 $profil['pass'] = md5($passNew);
             }else{
@@ -82,7 +88,7 @@ class ProfilController extends AbsController
         $item = array(
             array('column' => 'fjmeno', 'value_mysql' => "'".$FName."'"),
             array('column' => 'ljmeno', 'value_mysql' => "'".$LName."'"),
-            //array('column' => 'heslo', 'value_mysql' => "'".$pass."'"),
+            array('column' => 'heslo', 'value_mysql' => "'".$pass."'"),
             array('column' => 'mesto', 'value_mysql' => "'".$city."'"),
             array('column' => 'psc', 'value_mysql' => "'".$psc."'"),
             array('column' => 'ulice', 'value_mysql' => "'".$street."'"),

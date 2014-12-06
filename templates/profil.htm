@@ -45,5 +45,30 @@
     <br /><br />
     <button type="submit" class="btn btn-success ">Uložit</button>
 </form>
+<br /><br />
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th></th>
+        <th>Název filmu</th>
+        <th>Datum půjčení</th>
+        <th>Cena</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for movie in borrow %}
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td><img src="../covers/{{ movie.cover_link }}" alt="{{ movie.nazev }}" height="42"></td>
+        <td>{{ movie.nazev }}</td>
+        <td>{{ movie.datum_vypujceni }}</td>
+        <td>{{ movie.cena }} Kč</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
 
 {% endblock content %}

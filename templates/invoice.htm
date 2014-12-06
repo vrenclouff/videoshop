@@ -50,7 +50,7 @@
         <tbody>
         {% for movie in basket %}
             <tr>
-                <td>{{ movie.nm }}</td>
+                <td>{{ loop.index }}</td>
                 <td>{{ movie.name }}</td>
                 <td>{{ date }}</td>
                 <td>{{ movie.price }} Kč</td>

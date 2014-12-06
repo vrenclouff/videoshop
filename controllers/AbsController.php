@@ -45,22 +45,10 @@ abstract class AbsController
 
     public function homepage(){
 
-        if(isset($_SESSION["user_islogin"]))
-        {
-            $this->data = array(
-                'fname' => $_SESSION['user_profil']['fjmeno'],
-                'lname' => $_SESSION['user_profil']['ljmeno']
-            );
-        }
-        $this->temp = 'login';
-        $this->view();
-
         $home = new Homepage($this->db);
         $this->data = $home->prepareHomepage();
-
         $this->temp = 'content';
         $this->view();
-
         $this->set_url('');
     }
 
