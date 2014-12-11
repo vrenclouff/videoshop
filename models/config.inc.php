@@ -33,22 +33,5 @@
 	define('DB_USER_LOGIN', 'root');
 	define('DB_USER_PASSWORD', 'root');
 
-	// online
-	/*
-	define('DB_TYPE', 'mysql');
-	define('DB_HOST', '127.0.0.1');
-	define('DB_DATABASE_NAME', 'db1_vyuka');
-	define('DB_USER_LOGIN', 'db1_vyuka');
-	define('DB_USER_PASSWORD', 'db1_vyuka');
-	*/
-	
-	/**
-	 * Tady jsou ruzna databazova nastaveni.
-	 */
-	
-	// prefix vsech mych tabulek
-	define('TABLE_PREFIX', 'madostal_');
-	
-	// tabulka predmetu
-	define('TABLE_PREDMETY', TABLE_PREFIX.'predmety');
+
 ?>
