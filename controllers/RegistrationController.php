@@ -32,13 +32,22 @@ class RegistrationController extends AbsController
 
         extract($profil);
 
-        if(empty($pass) && $pass != $pass2){
-//              echo "<script type='text/javascript'>alert('Hesla se neshodují');</script>";
-              $this->render_back($profil);
+        if($pass != '' && $pass2 != ''){
+            if($pass != $pass2){
+                echo "<script type='text/javascript'>alert('Hesla se neshodují');</script>";
+                $this->render_back($profil);
+            }
+
         }
-        $dat = array(array('column' => 'email', 'symbol' => '=', 'value' => $email));
+
+        $dat = array(array('column' => 'email', 'symbol' => '=', 'value_mysql' => $email));
         $error = $this->db->DBSelectOne('profil', 'email', $dat, '');
-        echo $error;
+//        echo $error;
+        if($error != ''){
+            echo "<script type='text/javascript'>alert('Uzivatel jiz existuje');</script>";
+            $this->render_back($profil);
+        }
+
         if(empty($psc) || strlen($psc) != 5 || intval($psc) == 0){
             echo "<script type='text/javascript'>alert('Zadejte správné PSČ Správný tvar - např: 10093');</script>";
             $this->render_back($profil);
